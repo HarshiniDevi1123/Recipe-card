@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Card</title>
+</head>
+<body>
+    <div class="recipe-card">
+        <div class="recipe-header">
+            <h1>Chocolate Cake</h1>
+        </div>
+        <div class="recipe-image">
+            <img src="https://www.fnp.com/images/pr/m/v200/chocolate-rose-designer-cake-half-kg.jpg" alt="Chocolate Cake">
+        </div>
+        <div class="recipe-info">
+            <div>Preparation Time: 45 mins</div>
+            <div>Serving : 8</div>
+        </div>
+        <div class="button-container">
+            <h4>Steps Below : Click start Cooking</h1>
+            <button class="button" id="toggle-ingredients">Show Ingredients</button>
+            <button class="button" id="start-cooking">Start Cooking</button>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" id="progress-bar"></div>
+        </div>
+        <div class="ingredients hidden">
+            <h2>Ingredients</h2>
+            <ul>
+                <li>2 cups of flour</li>
+                <li>2 cups of sugar</li>
+                <li>1.5 cups of choco powder</li>
+                <li>1 cup of milk</li>
+                <li>2 eggs or if you want eggless Dont add eggs</li>
+            </ul>
+        </div>
+       
+        <div class="steps hidden">
+            <h2>Steps</h2>
+            <ol>
+                <li>Slightly Heat the oven with 350°F ( that means 175°C).</li>
+                <li>Mix all the ingredients.</li>
+                <li>Add the wet ingredients and mix until it becomes smooth.</li>
+                <li>Apply the butter into a greased pan.</li>
+                <li>Bake for 30-35 minutes or until a toothpick comes out clean.</li>
+            </ol>
+        </div>
+   
+    </div>
+    <style>
+        body {
+            font : italic;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        .recipe-card {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 8px;
+        }
+        .recipe-header {
+            text-align: center;
+            padding: 20px;
+            background: #ffcccb;
+        }
+        .recipe-header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        .recipe-image img {
+            width: 30%;
+            height: auto;
+            margin-left: 250px;
+            padding-top: 3px;
+        }
+        .recipe-info {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            background: #f1f1f1;
+            font-size: 0.9rem;
+        }
+        .ingredients, .steps {
+            padding: 20px;
+        }
+        .ingredients ul, .steps ol {
+            margin: 0;
+            padding: 0 20px;
+        }
+        .ingredients li, .steps li {
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        .ingredients li:hover, .steps li:hover {
+            color: #ff6347;
+            text-decoration: underline;
+        }
+        .hidden {
+            display: none;
+        }
+        .button-container {
+            text-align: center;
+            padding: 10px;
+        }
+        .button {
+            background: #ff6347;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .button:hover {
+            background: #e5533a;
+        }
+        .progress-bar {
+            height: 10px;
+            background: #ddd;
+            margin: 0 20px 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            width: 0;
+            background: #ff6347;
+            transition: width 0.5s ease;
+        }
+        @media (max-width: 600px) {
+            .recipe-info {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    </style>
+    <script>
+        const toggleIngredients = document.getElementById('toggle-ingredients');
+        const ingredientsSection = document.querySelector('.ingredients');
+        const stepsSection = document.querySelector('.steps');
+        const startCooking = document.getElementById('start-cooking');
+        const progressBar = document.getElementById('progress-bar');
+        const steps = document.querySelectorAll('.steps li');
+        let currentStep = 0;
+        toggleIngredients.addEventListener('click', () => {
+            ingredientsSection.classList.toggle('hidden');
+            stepsSection.classList.add('hidden');
+            toggleIngredients.textContent = 
+                ingredientsSection.classList.contains('hidden') ? 'Show Ingredients' : 'Hide Ingredients';
+        });
+        startCooking.addEventListener('click', () => {
+            if (stepsSection.classList.contains('hidden')) {
+                stepsSection.classList.remove('hidden');
+                currentStep = 0;
+                highlightStep();
+            } else {
+                nextStep();
+            }
+        });
+        function highlightStep() {
+            steps.forEach((step, index) => {
+                step.style.fontWeight = index === currentStep ? 'bold' : 'normal';
+                step.style.color = index === currentStep ? '#ff6347' : 'inherit';
+            });
+            progressBar.style.width = ((currentStep + 1) / steps.length) * 100 + '%';
+        }
+        function nextStep() {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                highlightStep();
+            } else {
+                alert('Recipe complete! Enjoy your dish!');
+                progressBar.style.width = '100%';
+            }
+        }
+    </script>
+</body>
+</html> 
